@@ -1,6 +1,6 @@
 const DB = {
-  PRODUCTS_KEY: 'pinkorak_products',
-  SALES_KEY: 'pinkorak_sales',
+  PRODUCTS_KEY: 'pinkdrake_products',
+  SALES_KEY: 'pinkdrake_sales',
 
   getProducts() {
     const d = localStorage.getItem(this.PRODUCTS_KEY);
@@ -63,7 +63,7 @@ const DB = {
     const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = `vendas_pinkorak_${new Date().toISOString().slice(0,10)}.csv`;
+    a.download = `vendas_pinkdrake_${new Date().toISOString().slice(0,10)}.csv`;
     a.click();
   },
 

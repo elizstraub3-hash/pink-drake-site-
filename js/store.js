@@ -156,7 +156,7 @@ function sendWhatsApp() {
   const addr  = document.getElementById('cAddr').value.trim();
   const notes = document.getElementById('cNotes').value.trim();
 
-  let msg = `Olá! Quero finalizar meu pedido na *Pink Orak Store* 💕\n\n`;
+  let msg = `Olá! Quero finalizar meu pedido na *Pink Drake* 💕\n\n`;
   msg += `*👤 Nome:* ${name}\n`;
   if (phone) msg += `*📱 Telefone:* ${phone}\n`;
   msg += `\n*🛒 Itens do Pedido:*\n`;
