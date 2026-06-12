@@ -2,9 +2,14 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Pink Drake 💕</title>
   <meta name="description" content="Pink Drake – sua loja de maquiagem online. Pedidos via WhatsApp.">
+  <meta name="theme-color" content="#C70077">
+  <!-- Fonts preconnect para velocidade -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -12,32 +17,57 @@
   <!-- HEADER -->
   <header class="header" id="header">
     <div class="hinner">
-      <a href="index.html" class="logo-wrap">
+      <a href="#home" class="logo-wrap" onclick="scrollToHome()">
         <img src="img/logo-white.png" alt="Pink Drake" class="logo-img"
              onerror="this.style.display='none';document.querySelector('.logo-fallback').style.display='block'">
         <span class="logo-fallback" style="display:none">Pink Drake</span>
       </a>
+      <nav class="h-nav">
+        <a href="#home"       class="h-nav-link" onclick="scrollToHome()">Início</a>
+        <a href="#categories" class="h-nav-link" onclick="scrollToCats()">Categorias</a>
+        <a href="#products"   class="h-nav-link" onclick="scrollToProducts()">Produtos</a>
+      </nav>
       <div class="h-actions">
         <button class="btn-cart" onclick="toggleCart()">
-          🛍️ Carrinho
-          <span class="cart-badge" id="cartBadge">0</span>
+          🛍️ <span class="cart-badge" id="cartBadge">0</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- HERO -->
-  <section class="hero">
+  <!-- HOME / HERO -->
+  <section class="hero" id="home">
     <div class="hero-content">
       <img src="img/logo-white.png" alt="Pink Drake" class="hero-logo-img"
            onerror="this.style.display='none';document.querySelector('.hero-logo-text').style.display='block'">
       <div class="hero-logo-text" style="display:none">Pink Drake</div>
       <p class="hero-sub">Beleza & Make para todas as ocasiões ✨</p>
-      <button class="btn-hero" onclick="scrollToProducts()">Ver Produtos</button>
+      <div class="hero-btns">
+        <button class="btn-hero" onclick="scrollToProducts()">Ver Produtos</button>
+        <a class="btn-hero-wa" href="https://wa.me/554184999861" target="_blank">💬 WhatsApp</a>
+      </div>
     </div>
   </section>
 
-  <!-- PRODUCTS -->
+  <!-- FEATURES STRIP -->
+  <div class="features-strip">
+    <div class="feat-item"><span>💎</span><p>Qualidade Premium</p></div>
+    <div class="feat-item"><span>🛵</span><p>Entrega Rápida</p></div>
+    <div class="feat-item"><span>💬</span><p>Pedido via WhatsApp</p></div>
+    <div class="feat-item"><span>💕</span><p>Atendimento Especial</p></div>
+  </div>
+
+  <!-- CATEGORIES SECTION -->
+  <section class="cats-section" id="categories">
+    <div class="container">
+      <h2 class="section-title">Categorias 🌸</h2>
+      <div class="cats-grid" id="catsGrid">
+        <!-- populated by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS SECTION -->
   <section class="products-section" id="products">
     <div class="container">
       <h2 class="section-title" id="catTitle">Nossos Produtos 💄</h2>
@@ -47,19 +77,19 @@
         </select>
         <span class="cat-arrow">▼</span>
       </div>
-      <div class="products-grid" id="productsGrid">
-        <!-- populated by JS -->
-      </div>
+      <div class="products-grid" id="productsGrid"></div>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer class="footer">
+    <img src="img/logo-white.png" alt="Pink Drake" class="footer-logo-img"
+         onerror="this.style.display='none'">
     <div class="footer-logo-text">Pink Drake</div>
     <p>Pedidos via WhatsApp 💕</p>
     <p><a href="https://wa.me/554184999861">(41) 8499-9861</a></p>
-    <p style="margin-top:12px;opacity:.65;font-size:.78rem">&copy; 2024 Pink Drake · Todos os direitos reservados</p>
-    <div class="footer-secret" onclick="footerSecret()" title=""></div>
+    <p class="footer-copy">&copy; 2024 Pink Drake · Todos os direitos reservados</p>
+    <div class="footer-secret" onclick="footerSecret()"></div>
   </footer>
 
   <!-- CART OVERLAY -->
@@ -93,7 +123,6 @@
         <button class="btn-close-modal" onclick="closeCheckout()">✕</button>
       </div>
       <div class="modal-body">
-
         <div class="fg">
           <label>Seu nome *</label>
           <input type="text" id="cName" placeholder="Como você se chama?" required>
@@ -102,43 +131,29 @@
           <label>Telefone (opcional)</label>
           <input type="tel" id="cPhone" placeholder="(41) 9 9999-9999">
         </div>
-
         <div class="fg">
           <label>Tipo de recebimento *</label>
           <div class="toggle-btns">
-            <button type="button" class="toggle-btn active" id="btnPickup" onclick="setDelivery('pickup')">
-              🏪 Retirada
-            </button>
-            <button type="button" class="toggle-btn" id="btnDelivery" onclick="setDelivery('delivery')">
-              🛵 Entrega
-            </button>
+            <button type="button" class="toggle-btn active" id="btnPickup" onclick="setDelivery('pickup')">🏪 Retirada</button>
+            <button type="button" class="toggle-btn"        id="btnDelivery" onclick="setDelivery('delivery')">🛵 Entrega</button>
           </div>
         </div>
-
         <div class="fg" id="addrGroup" style="display:none">
           <label>Endereço de entrega *</label>
           <textarea id="cAddr" rows="3" placeholder="Rua, número, bairro, cidade..."></textarea>
         </div>
-
         <div class="fg">
           <label>Observações (opcional)</label>
           <textarea id="cNotes" rows="2" placeholder="Alguma observação sobre o pedido?"></textarea>
         </div>
-
         <div class="order-summary">
           <h4>Resumo do Pedido</h4>
           <div id="sumItems"></div>
-          <div class="sum-total">
-            <span>Total:</span>
-            <strong id="sumTotal">R$ 0,00</strong>
-          </div>
+          <div class="sum-total"><span>Total:</span><strong id="sumTotal">R$ 0,00</strong></div>
         </div>
-
       </div>
       <div class="modal-foot">
-        <button class="btn-wa" onclick="sendWhatsApp()">
-          💬 Enviar Pedido no WhatsApp
-        </button>
+        <button class="btn-wa" onclick="sendWhatsApp()">💬 Enviar Pedido no WhatsApp</button>
       </div>
     </div>
   </div>
