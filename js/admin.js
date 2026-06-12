@@ -250,4 +250,19 @@ function set(id, v) { const el=document.getElementById(id); if(el) el.textConten
 function getVal(id) { const el=document.getElementById(id); return el?el.value:''; }
 function setVal(id, v) { const el=document.getElementById(id); if(el) el.value=v; }
 
+function togglePwd() {
+  const inp = document.getElementById('pwd');
+  const open = document.getElementById('eyeOpen');
+  const closed = document.getElementById('eyeClosed');
+  if (inp.type === 'password') {
+    inp.type = 'text';
+    open.style.display = 'none';
+    closed.style.display = 'block';
+  } else {
+    inp.type = 'password';
+    open.style.display = 'block';
+    closed.style.display = 'none';
+  }
+}
+
 document.addEventListener('DOMContentLoaded', checkAuth);

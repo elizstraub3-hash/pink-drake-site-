@@ -89,7 +89,7 @@ img{max-width:100%;display:block}
   background:radial-gradient(ellipse at center,rgba(255,255,255,.12) 0%,transparent 70%);
 }
 .hero-content{position:relative;z-index:1}
-.hero-logo-img{height:110px;width:auto;margin:0 auto 20px;object-fit:contain;filter:drop-shadow(0 4px 16px rgba(0,0,0,.25))}
+.hero-logo-img{height:210px;width:auto;max-width:90%;margin:0 auto 20px;object-fit:contain;filter:drop-shadow(0 4px 20px rgba(0,0,0,.3))}
 .hero-logo-text{
   font-family:'Pacifico',cursive;font-size:3rem;color:#fff;
   text-shadow:0 4px 20px rgba(0,0,0,.25);margin-bottom:20px;line-height:1.1;
@@ -110,17 +110,25 @@ img{max-width:100%;display:block}
 }
 .section-title{text-align:center;font-size:1.8rem;font-weight:800;color:var(--dpink);margin-bottom:30px}
 
-/* Category filter */
-.cat-bar{
-  display:flex;flex-wrap:wrap;gap:10px;justify-content:center;
-  margin-bottom:36px;padding:0 20px;
+/* Category dropdown */
+.cat-dropdown-wrap{
+  position:relative;max-width:360px;margin:0 auto 36px;padding:0 20px;
 }
-.cat-btn{
-  background:var(--pale);color:var(--dpink);border:2px solid transparent;
-  padding:8px 22px;border-radius:30px;font-size:.85rem;font-weight:600;transition:var(--trans);
+.cat-dropdown-wrap select{
+  width:100%;appearance:none;-webkit-appearance:none;
+  background:var(--dpink);color:#fff;
+  padding:13px 48px 13px 22px;
+  border:none;border-radius:30px;
+  font-size:.95rem;font-weight:700;font-family:'Poppins',sans-serif;
+  cursor:pointer;box-shadow:var(--shadow-sm);transition:var(--trans);
+  outline:none;
 }
-.cat-btn:hover{border-color:var(--pink)}
-.cat-btn.active{background:var(--dpink);color:#fff;box-shadow:var(--shadow-sm)}
+.cat-dropdown-wrap select:hover{background:var(--pink)}
+.cat-dropdown-wrap select option{background:#fff;color:var(--text);font-weight:500}
+.cat-arrow{
+  position:absolute;right:34px;top:50%;transform:translateY(-50%);
+  color:#fff;font-size:.8rem;pointer-events:none;font-weight:700;
+}
 
 /* Products grid */
 .products-grid{
@@ -288,12 +296,16 @@ img{max-width:100%;display:block}
 /* ── FOOTER ── */
 .footer{
   background:var(--dpink);color:#fff;
-  text-align:center;padding:40px 20px;margin-top:0;
+  text-align:center;padding:40px 20px 0;margin-top:0;
 }
 .footer-logo-text{font-family:'Pacifico',cursive;font-size:1.6rem;margin-bottom:8px}
 .footer p{font-size:.85rem;opacity:.85;margin:4px 0}
 .footer a{color:#ffc;text-decoration:none}
 .footer a:hover{text-decoration:underline}
+.footer-secret{height:36px;cursor:default;user-select:none;-webkit-user-select:none}
+
+/* Category page title */
+#catTitle{transition:var(--trans)}
 
 /* =====================================================
    ADMIN PANEL
@@ -319,12 +331,19 @@ img{max-width:100%;display:block}
 }
 .login-logo-text{font-family:'Pacifico',cursive;font-size:1.8rem;color:var(--dpink);margin-bottom:6px}
 .login-sub{color:var(--muted);font-size:.85rem;margin-bottom:28px}
-.login-card input{
-  width:100%;padding:13px 16px;border:2px solid #eee;border-radius:var(--radius-sm);
-  font-size:.95rem;font-family:'Poppins',sans-serif;outline:none;margin-bottom:14px;
+.pwd-wrap{position:relative;margin-bottom:14px}
+.pwd-wrap input{
+  width:100%;padding:13px 48px 13px 16px;border:2px solid #eee;border-radius:var(--radius-sm);
+  font-size:.95rem;font-family:'Poppins',sans-serif;outline:none;
   transition:var(--trans);
 }
-.login-card input:focus{border-color:var(--pink)}
+.pwd-wrap input:focus{border-color:var(--pink)}
+.btn-eye{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  background:none;border:none;color:#aaa;cursor:pointer;padding:4px;
+  display:flex;align-items:center;transition:var(--trans);
+}
+.btn-eye:hover{color:var(--pink)}
 .btn-login{
   width:100%;padding:13px;
   background:linear-gradient(135deg,var(--dpink),var(--pink));

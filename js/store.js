@@ -5,25 +5,61 @@ let activeCat = 'all';
 
 function init() {
   renderCategories();
-  renderProducts();
   updateBadge();
   window.addEventListener('scroll', () =>
     document.getElementById('header').classList.toggle('scrolled', scrollY > 60)
   );
+  window.addEventListener('popstate', () => { syncFromHash(); renderProducts(); });
 }
 
 function renderCategories() {
   const cats = [...new Set(DB.getProducts().filter(p=>p.active).map(p=>p.category))];
-  const bar = document.getElementById('catBar');
-  bar.innerHTML = `<button class="cat-btn active" onclick="filterCat('all',this)">✨ Todos</button>` +
-    cats.map(c => `<button class="cat-btn" onclick="filterCat('${c}',this)">${c}</button>`).join('');
+  const sel = document.getElementById('catSelect');
+  sel.innerHTML = '<option value="all">✨ Todos os Produtos</option>' +
+    cats.map(c => `<option value="${c}">${c}</option>`).join('');
+  syncFromHash();
+  renderProducts();
 }
 
-function filterCat(cat, btn) {
-  activeCat = cat;
-  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+function syncFromHash() {
+  const hash = decodeURIComponent(window.location.hash.replace('#',''));
+  const sel = document.getElementById('catSelect');
+  const cats = [...sel.options].map(o => o.value);
+  if (hash && cats.includes(hash)) {
+    sel.value = hash;
+    activeCat = hash;
+  } else {
+    sel.value = 'all';
+    activeCat = 'all';
+  }
+  updateCatTitle();
+}
+
+function filterCatSelect(sel) {
+  activeCat = sel.value;
+  if (sel.value === 'all') {
+    history.pushState(null, '', window.location.pathname);
+  } else {
+    history.pushState(null, '', '#' + encodeURIComponent(sel.value));
+  }
+  updateCatTitle();
   renderProducts();
+  document.getElementById('products').scrollIntoView({behavior:'smooth'});
+}
+
+function updateCatTitle() {
+  const title = document.getElementById('catTitle');
+  if (!title) return;
+  title.textContent = activeCat === 'all' ? 'Nossos Produtos 💄' : activeCat + ' 💄';
+}
+
+// Footer secret: 7 cliques para abrir admin
+let _fc = 0, _ft;
+function footerSecret() {
+  _fc++;
+  clearTimeout(_ft);
+  if (_fc >= 7) { _fc = 0; window.location.href = 'admin.html'; }
+  else _ft = setTimeout(() => _fc = 0, 2500);
 }
 
 function renderProducts() {

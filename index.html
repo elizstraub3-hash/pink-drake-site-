@@ -22,7 +22,6 @@
           🛍️ Carrinho
           <span class="cart-badge" id="cartBadge">0</span>
         </button>
-        <a href="admin.html" class="btn-admin-link">⚙️ Admin</a>
       </div>
     </div>
   </header>
@@ -32,9 +31,7 @@
     <div class="hero-content">
       <img src="img/logo-white.png" alt="Pink Drake" class="hero-logo-img"
            onerror="this.style.display='none';document.querySelector('.hero-logo-text').style.display='block'">
-      <div class="hero-logo-text" style="display:none">
-        Pink Drake<small>Store</small>
-      </div>
+      <div class="hero-logo-text" style="display:none">Pink Drake</div>
       <p class="hero-sub">Beleza & Make para todas as ocasiões ✨</p>
       <button class="btn-hero" onclick="scrollToProducts()">Ver Produtos</button>
     </div>
@@ -43,9 +40,12 @@
   <!-- PRODUCTS -->
   <section class="products-section" id="products">
     <div class="container">
-      <h2 class="section-title">Nossos Produtos 💄</h2>
-      <div class="cat-bar" id="catBar">
-        <!-- populated by JS -->
+      <h2 class="section-title" id="catTitle">Nossos Produtos 💄</h2>
+      <div class="cat-dropdown-wrap">
+        <select id="catSelect" onchange="filterCatSelect(this)">
+          <option value="all">✨ Todos os Produtos</option>
+        </select>
+        <span class="cat-arrow">▼</span>
       </div>
       <div class="products-grid" id="productsGrid">
         <!-- populated by JS -->
@@ -59,6 +59,7 @@
     <p>Pedidos via WhatsApp 💕</p>
     <p><a href="https://wa.me/554184999861">(41) 8499-9861</a></p>
     <p style="margin-top:12px;opacity:.65;font-size:.78rem">&copy; 2024 Pink Drake · Todos os direitos reservados</p>
+    <div class="footer-secret" onclick="footerSecret()" title=""></div>
   </footer>
 
   <!-- CART OVERLAY -->
