@@ -477,6 +477,80 @@ img{max-width:100%;display:block}
 .btn-add-item:hover{background:var(--pink);color:#fff}
 .manual-total-line{text-align:right;font-size:1.05rem;font-weight:700;color:var(--dpink);margin-top:10px;padding:10px;background:var(--pale);border-radius:var(--radius-sm)}
 
+/* ── CAIXA SECTION ── */
+.caixa-badge{display:inline-block;padding:5px 16px;border-radius:20px;font-weight:700;font-size:.84rem;letter-spacing:.3px}
+.caixa-badge.open{background:#e8f5e9;color:#2e7d32}
+.caixa-badge.closed{background:#f5f5f5;color:#999;border:1px solid #ddd}
+.caixa-since{display:inline-block;font-size:.75rem;color:var(--muted);margin-left:10px;vertical-align:middle}
+
+.totals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;margin:4px 0 0}
+.total-card{background:var(--pale);border-radius:var(--radius-sm);padding:14px 16px;text-align:center}
+.total-card span{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:6px}
+.total-card strong{font-size:1.2rem;font-weight:800;color:var(--dpink);display:block}
+.total-card.total{border:2px solid var(--pink);background:linear-gradient(135deg,var(--dpink),var(--pink))}
+.total-card.total span{color:rgba(255,255,255,.8)}
+.total-card.total strong{color:#fff}
+
+.val-in{color:#2e7d32;font-weight:700}
+.val-out{color:#c62828;font-weight:700}
+
+.hist-row{background:var(--pale);border-radius:var(--radius-sm);padding:12px 16px;margin-bottom:8px}
+.hist-totals{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;font-size:.78rem;color:var(--muted)}
+.hist-totals strong{color:var(--dpink)}
+
+/* ── PAYMENT BADGE ── */
+.b-pay{background:#ede7f6;color:#6a1b9a}
+
+/* ── CALCULATOR ── */
+.calc-wrap{max-width:300px;margin:0 auto;background:#1c1c1e;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.calc-screen{
+  padding:24px 24px 16px;text-align:right;font-size:2.8rem;font-weight:300;
+  color:#fff;min-height:80px;word-break:break-all;line-height:1.1;background:#1c1c1e;
+  font-family:'Poppins',sans-serif;
+}
+.calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#3a3a3c}
+.calc-btn{
+  padding:18px 10px;font-size:1.15rem;font-weight:500;background:#2c2c2e;color:#fff;
+  border:none;cursor:pointer;font-family:'Poppins',sans-serif;transition:background .12s;
+  -webkit-tap-highlight-color:rgba(255,255,255,.12);
+}
+.calc-btn:hover{background:#3a3a3c}
+.calc-btn:active{background:#505052}
+.calc-btn.func{background:#3a3a3c}
+.calc-btn.func:hover{background:#4a4a4c}
+.calc-btn.op,.calc-btn.eq{background:#ff9f0a;color:#fff}
+.calc-btn.op:hover,.calc-btn.eq:hover{background:#ffae2e}
+.calc-btn.op:active,.calc-btn.eq:active{background:#ffc05e}
+.calc-btn.zero{grid-column:span 2;text-align:left;padding-left:28px}
+
+/* ── HEADER CATEGORY DROPDOWN ── */
+.h-cat-dropdown{position:relative}
+.h-cat-btn{
+  color:rgba(255,255,255,.9);font-size:.82rem;font-weight:600;
+  padding:6px 12px;border-radius:20px;transition:var(--trans);
+  background:none;border:none;font-family:'Poppins',sans-serif;cursor:pointer;
+  display:flex;align-items:center;gap:4px;
+}
+.h-cat-btn:hover{background:rgba(255,255,255,.18);color:#fff}
+.h-cat-arrow{font-size:.65rem;transition:transform .2s;display:inline-block}
+.h-cat-dropdown.open .h-cat-arrow{transform:rotate(180deg)}
+.h-cat-menu{
+  position:absolute;top:calc(100% + 8px);left:50%;
+  transform:translateX(-50%) translateY(-6px);
+  background:#fff;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.2);
+  min-width:200px;z-index:1000;overflow:hidden;
+  opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease;
+}
+.h-cat-menu.open{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0)}
+.h-cat-item{
+  display:block;width:100%;text-align:left;padding:10px 18px;
+  background:none;border:none;border-bottom:1px solid var(--pale);
+  font-size:.84rem;font-family:'Poppins',sans-serif;
+  color:var(--text);cursor:pointer;transition:background .15s;
+}
+.h-cat-item:last-child{border-bottom:none}
+.h-cat-item:hover{background:var(--pale);color:var(--dpink)}
+
 /* ── RESPONSIVE ── */
 @media(max-width:900px){
   .sidebar{position:fixed;top:0;left:-260px;z-index:1000;transition:left .28s ease;height:100vh;width:260px}

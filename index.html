@@ -23,9 +23,16 @@
         <span class="logo-fallback" style="display:none">Pink Drake</span>
       </a>
       <nav class="h-nav">
-        <a href="#home"       class="h-nav-link" onclick="scrollToHome()">Início</a>
-        <a href="#categories" class="h-nav-link" onclick="scrollToCats()">Categorias</a>
-        <a href="#products"   class="h-nav-link" onclick="scrollToProducts()">Produtos</a>
+        <a href="#home" class="h-nav-link" onclick="scrollToHome()">Início</a>
+        <div class="h-cat-dropdown" id="hCatDropdown">
+          <button class="h-cat-btn" onclick="toggleCatMenu(event)">
+            Categorias <span class="h-cat-arrow">▾</span>
+          </button>
+          <div class="h-cat-menu" id="hCatMenu">
+            <!-- populated by JS -->
+          </div>
+        </div>
+        <a href="#products" class="h-nav-link" onclick="scrollToProducts()">Produtos</a>
       </nav>
       <div class="h-actions">
         <button class="btn-cart" onclick="toggleCart()">

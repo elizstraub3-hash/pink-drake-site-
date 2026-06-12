@@ -20,11 +20,15 @@ function init() {
     document.getElementById('header').classList.toggle('scrolled', scrollY > 60)
   );
   window.addEventListener('popstate', () => { syncFromHash(); renderProducts(); });
+  document.addEventListener('click', e => {
+    const dd = document.getElementById('hCatDropdown');
+    if (dd && !dd.contains(e.target)) closeCatMenu();
+  });
 }
 
 function renderCategories() {
   const cats = [...new Set(DB.getProducts().filter(p=>p.active).map(p=>p.category))];
-  // Dropdown
+  // Products area dropdown
   const sel = document.getElementById('catSelect');
   sel.innerHTML = '<option value="all">✨ Todos os Produtos</option>' +
     cats.map(c => `<option value="${c}">${c}</option>`).join('');
@@ -37,8 +41,27 @@ function renderCategories() {
         <span class="cc-name">${c}</span>
       </button>`).join('');
   }
+  // Header dropdown menu
+  const menu = document.getElementById('hCatMenu');
+  if (menu) {
+    menu.innerHTML =
+      `<button class="h-cat-item" onclick="goToCategory('all');closeCatMenu()">✨ Todos os Produtos</button>` +
+      cats.map(c => `<button class="h-cat-item" onclick="goToCategory('${c}');closeCatMenu()">${c}</button>`).join('');
+  }
   syncFromHash();
   renderProducts();
+}
+
+function toggleCatMenu(e) {
+  e.stopPropagation();
+  document.getElementById('hCatDropdown').classList.toggle('open');
+  document.getElementById('hCatMenu').classList.toggle('open');
+}
+function closeCatMenu() {
+  const dd = document.getElementById('hCatDropdown');
+  const menu = document.getElementById('hCatMenu');
+  if (dd) dd.classList.remove('open');
+  if (menu) menu.classList.remove('open');
 }
 
 function goToCategory(cat) {
