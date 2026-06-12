@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Admin – Pink Orak Store</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="admin-body">
+
+  <!-- ── LOGIN ── -->
+  <div id="loginScreen">
+    <div class="login-card">
+      <div class="login-logo-text">Pink Orak</div>
+      <p class="login-sub">Painel Administrativo</p>
+      <input type="password" id="pwd" placeholder="🔒 Senha de acesso" autofocus>
+      <button class="btn-login" onclick="doLogin()">Entrar</button>
+      <p class="login-hint">Senha padrão: pink2024</p>
+      <div id="loginErr">❌ Senha incorreta. Tente novamente.</div>
+    </div>
+  </div>
+
+  <!-- ── ADMIN APP ── -->
+  <div id="adminApp" style="display:none">
+
+    <!-- Mobile Header -->
+    <div class="mob-header">
+      <button class="btn-menu" onclick="toggleSidebar()">☰</button>
+      <span class="mob-title">Pink Orak Admin</span>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sb-logo">
+        Pink Orak<small>Store — Admin</small>
+      </div>
+      <nav class="sb-nav">
+        <button class="nav-item active" data-sec="dashboard" onclick="loadSection('dashboard')">
+          <span class="ni-icon">📊</span> Dashboard
+        </button>
+        <button class="nav-item" data-sec="products" onclick="loadSection('products')">
+          <span class="ni-icon">🛍️</span> Produtos
+        </button>
+        <button class="nav-item" data-sec="sales" onclick="loadSection('sales')">
+          <span class="ni-icon">💰</span> Vendas
+        </button>
+      </nav>
+      <div class="sb-bottom">
+        <a href="index.html" class="btn-logout" style="text-decoration:none;display:flex;gap:8px;padding:10px 14px;color:rgba(255,255,255,.85);font-size:.88rem">
+          🏪 Ver Loja
+        </a>
+        <button class="btn-logout" onclick="doLogout()" style="margin-top:6px">🚪 Sair</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+
+      <!-- ─ DASHBOARD ─ -->
+      <div id="sec-dashboard" class="admin-section">
+        <h2 style="margin-bottom:20px;color:var(--dpink)">📊 Dashboard</h2>
+        <div class="stats-grid">
+          <div class="stat-card"><h4>Vendas Hoje</h4><p id="dash-today-sales">0</p></div>
+          <div class="stat-card"><h4>Receita Hoje</h4><p id="dash-revenue-today">R$ 0,00</p></div>
+          <div class="stat-card"><h4>Total de Vendas</h4><p id="dash-total-sales">0</p></div>
+          <div class="stat-card"><h4>Receita Total</h4><p id="dash-revenue-total">R$ 0,00</p></div>
+          <div class="stat-card"><h4>Produtos Ativos</h4><p id="dash-products">0</p></div>
+        </div>
+        <div class="card-box">
+          <h3>Vendas Recentes</h3>
+          <div id="recentSales"></div>
+        </div>
+      </div>
+
+      <!-- ─ PRODUCTS ─ -->
+      <div id="sec-products" class="admin-section" style="display:none">
+        <div class="sec-head">
+          <h2>🛍️ Produtos</h2>
+          <button class="btn-primary" onclick="openProdModal(null)">+ Novo Produto</button>
+        </div>
+        <div class="tbl-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Foto</th>
+                <th>Produto</th>
+                <th>Categoria</th>
+                <th>Preço</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="prodTbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ─ SALES ─ -->
+      <div id="sec-sales" class="admin-section" style="display:none">
+        <div class="sec-head">
+          <h2>💰 Vendas</h2>
+          <div class="sec-head-actions">
+            <button class="btn-primary"    onclick="openManualModal('Manual')">    + Venda Manual</button>
+            <button class="btn-insta"      onclick="openManualModal('Instagram')"> 📷 Insta/Redes</button>
+            <button class="btn-secondary"  id="exportBtn" onclick="exportSales()">⬇ Exportar CSV</button>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-bar">
+          <input type="text" id="fName" placeholder="🔍 Buscar por cliente..." oninput="loadSales()">
+          <select id="fType" onchange="loadSales()">
+            <option value="all">Todos os tipos</option>
+            <option value="pickup">Retirada</option>
+            <option value="delivery">Entrega</option>
+          </select>
+          <select id="fChan" onchange="loadSales()">
+            <option value="all">Todos os canais</option>
+            <option value="WhatsApp">WhatsApp</option>
+            <option value="Instagram">Instagram</option>
+            <option value="Facebook">Facebook</option>
+            <option value="Manual">Manual</option>
+            <option value="Presencial">Presencial</option>
+          </select>
+        </div>
+
+        <p id="salesCount" style="font-size:.83rem;color:var(--muted);margin-bottom:10px"></p>
+
+        <div class="tbl-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Cliente</th>
+                <th>Produtos</th>
+                <th>Total</th>
+                <th>Tipo</th>
+                <th>Canal</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="salesTbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div><!-- /adminApp -->
+
+
+  <!-- ── PRODUCT MODAL ── -->
+  <div class="modal-overlay" id="prodModal">
+    <div class="modal admin-modal">
+      <div class="modal-head">
+        <h3 id="prodModalTitle">Novo Produto</h3>
+        <button class="btn-close-modal" onclick="closeProdModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="prodForm" onsubmit="return false">
+          <div class="form-row">
+            <div class="fg">
+              <label>Nome *</label>
+              <input type="text" id="pName" placeholder="Nome do produto" required>
+            </div>
+            <div class="fg">
+              <label>Categoria *</label>
+              <input type="text" id="pCat" placeholder="Base, Batom, Sombra..." list="catList" required>
+              <datalist id="catList">
+                <option value="Base"><option value="Batom"><option value="Sombra">
+                <option value="Blush"><option value="Olhos"><option value="Corretivo">
+                <option value="Contorno"><option value="Primer"><option value="Pele">
+              </datalist>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="fg">
+              <label>Preço (R$) *</label>
+              <input type="number" id="pPrice" min="0" step="0.01" placeholder="0,00" required>
+            </div>
+            <div class="fg">
+              <label>Estoque</label>
+              <input type="number" id="pStock" min="0" value="0">
+            </div>
+          </div>
+          <div class="fg">
+            <label>URL da Foto</label>
+            <input type="url" id="pImg" placeholder="https://... (link da imagem)">
+          </div>
+          <div class="fg">
+            <label>Descrição</label>
+            <textarea id="pDesc" rows="3" placeholder="Descreva o produto..."></textarea>
+          </div>
+          <div class="fg">
+            <label class="check-row">
+              <input type="checkbox" id="pActive"> Produto ativo (visível na loja)
+            </label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-foot" style="display:flex;gap:10px;justify-content:flex-end">
+        <button class="btn-secondary" onclick="closeProdModal()">Cancelar</button>
+        <button class="btn-primary"   onclick="saveProd()">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MANUAL SALE MODAL ── -->
+  <div class="modal-overlay" id="manualModal">
+    <div class="modal admin-modal large-modal">
+      <div class="modal-head">
+        <h3>Registrar Venda</h3>
+        <button class="btn-close-modal" onclick="closeManualModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="manualForm" onsubmit="return false">
+          <div class="form-row">
+            <div class="fg">
+              <label>Nome da Cliente *</label>
+              <input type="text" id="mName" placeholder="Nome completo" required>
+            </div>
+            <div class="fg">
+              <label>Telefone</label>
+              <input type="tel" id="mPhone" placeholder="(41) 9 9999-9999">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="fg">
+              <label>Canal de venda</label>
+              <select id="mChan">
+                <option value="Manual">Manual</option>
+                <option value="Instagram">Instagram</option>
+                <option value="WhatsApp">WhatsApp</option>
+                <option value="Facebook">Facebook</option>
+                <option value="TikTok">TikTok</option>
+                <option value="Presencial">Presencial</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label>Tipo de entrega</label>
+              <select id="mType">
+                <option value="pickup">🏪 Retirada</option>
+                <option value="delivery">🛵 Entrega</option>
+              </select>
+            </div>
+          </div>
+          <div class="fg">
+            <label>Endereço (se entrega)</label>
+            <input type="text" id="mAddr" placeholder="Rua, número, bairro...">
+          </div>
+
+          <div class="fg">
+            <label>Produtos *</label>
+            <div id="mItems"></div>
+            <button type="button" class="btn-add-item" onclick="addItem()">+ Adicionar Item</button>
+          </div>
+
+          <div class="fg">
+            <label>Observações</label>
+            <input type="text" id="mNotes" placeholder="Observações...">
+          </div>
+
+          <div class="manual-total-line">
+            Total: <span id="mTotal">R$ 0,00</span>
+          </div>
+        </form>
+      </div>
+      <div class="modal-foot" style="display:flex;gap:10px;justify-content:flex-end">
+        <button class="btn-secondary" onclick="closeManualModal()">Cancelar</button>
+        <button class="btn-primary"   onclick="saveManualSale()">✅ Salvar Venda</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
