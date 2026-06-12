@@ -28,11 +28,13 @@ function init() {
 
 function renderCategories() {
   const cats = [...new Set(DB.getProducts().filter(p=>p.active).map(p=>p.category))];
-  // Products area dropdown
+  // Products area dropdown (optional element)
   const sel = document.getElementById('catSelect');
-  sel.innerHTML = '<option value="all">✨ Todos os Produtos</option>' +
-    cats.map(c => `<option value="${c}">${c}</option>`).join('');
-  // Category cards grid
+  if (sel) {
+    sel.innerHTML = '<option value="all">✨ Todos os Produtos</option>' +
+      cats.map(c => `<option value="${c}">${c}</option>`).join('');
+  }
+  // Category cards grid (optional element)
   const grid = document.getElementById('catsGrid');
   if (grid) {
     grid.innerHTML = cats.map(c => `
@@ -77,9 +79,13 @@ function goToCategory(cat) {
 function syncFromHash() {
   const hash = decodeURIComponent(window.location.hash.replace('#',''));
   const sel = document.getElementById('catSelect');
-  const vals = [...sel.options].map(o => o.value);
-  if (hash && vals.includes(hash)) { sel.value = hash; activeCat = hash; }
-  else { sel.value = 'all'; activeCat = 'all'; }
+  if (sel) {
+    const vals = [...sel.options].map(o => o.value);
+    if (hash && vals.includes(hash)) { sel.value = hash; activeCat = hash; }
+    else { sel.value = 'all'; activeCat = 'all'; }
+  } else {
+    activeCat = hash || 'all';
+  }
   updateCatTitle();
 }
 
